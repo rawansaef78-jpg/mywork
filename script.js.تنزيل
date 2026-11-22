@@ -1,0 +1,44 @@
+document.addEventListener("DOMContentLoaded", function () {
+  // رقم الواتساب بصيغة دولية بدون + أو أصفار
+  // الرقم المحلي 0533919725 => مفتاح السعودية 966
+  var phoneLocal = "0533919725";
+  var countryCode = "966";
+  var international = countryCode + phoneLocal.replace(/^0+/, "");
+
+  var message = "السلام عليكم، اطلعت على سيرتك الذاتية وأود التواصل معك.";
+  var link = "https://wa.me/" + international + "?text=" + encodeURIComponent(message);
+
+  var btn = document.getElementById("whatsapp-btn");
+  if (btn) {
+    btn.setAttribute("href", link);
+  }
+
+  // السنة في التذييل
+  var year = document.getElementById("year");
+  if (year) {
+    year.textContent = new Date().getFullYear();
+  }
+
+  // ظهور الأقسام عند التمرير
+  var items = document.querySelectorAll(".reveal");
+  if ("IntersectionObserver" in window) {
+    var observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+    items.forEach(function (el) {
+      observer.observe(el);
+    });
+  } else {
+    items.forEach(function (el) {
+      el.classList.add("visible");
+    });
+  }
+});
